@@ -1,0 +1,8 @@
+[M::mp_ntseq_read@0.025*1.48] read 13265201 bases in 56 contigs
+[M::mp_idx_build@0.025*1.48] 103694 blocks
+[M::mp_idx_build@0.335*1.03] collected syncmers
+[M::mp_idx_build@0.434*1.02] 6441420 kmer-block pairs
+[M::mp_idx_print_stat] 1403778 distinct k-mers; mean occ of infrequent k-mers: 4.59; 0 frequent k-mers accounting for 0 occurrences
+[M::main] Version: 0.18-r281
+[M::main] CMD: miniprot -t 1 -d home/fynn/genome_project/analysis/04_assembly_evaluation/busco/auto_lineage/run_eukaryota_odb12/miniprot_output/ref.mpi /home/fynn/genome_project/data/genome_assembly/pilon/pilon.fasta
+[M::main] Real time: 0.485 sec; CPU: 0.492 sec; Peak RSS: 0.166 GB
