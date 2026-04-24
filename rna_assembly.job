@@ -1,0 +1,41 @@
+#!/bin/bash
+#SBATCH -A uppmax2026-1-61
+#SBATCH -J rna_assembly
+#SBATCH -t 12:00:00
+#SBATCH -n 2
+#SBATCH --mem=100G
+
+module load Trinity/2.15.2-foss-2024a-Java-17
+
+RNA_DIR="/proj/uppmax2026-1-61/nobackup/work/fynn/trimmed_rna"
+OUT_DIR="/proj/uppmax2026-1-61/nobackup/work/fynn/trinity_out_dir"
+
+# Collect all paired forward reads, build comma-separated left/right lists
+LEFT=""
+RIGHT=""
+
+for f1 in "$RNA_DIR"/*_f1_paired.fastq.gz; do
+    # Derive the matching r2 file from the f1 filename
+    r2="${f1/_f1_paired/_r2_paired}"
+
+    # Sanity check that the mate exists
+    if [[ ! -f "$r2" ]]; then
+        echo "ERROR: missing mate for $f1" >&2
+        exit 1
+    fi
+
+    # Append to comma-separated lists (no leading comma)
+    LEFT="${LEFT:+$LEFT,}$f1"
+    RIGHT="${RIGHT:+$RIGHT,}$r2"
+done
+
+echo "LEFT:  $LEFT"
+echo "RIGHT: $RIGHT"
+
+# Run Trinity
+Trinity --seqType fq \
+        --max_memory 100G \
+        --CPU 2 \
+        --left "$LEFT" \
+        --right "$RIGHT" \
+        --output "$OUT_DIR"
