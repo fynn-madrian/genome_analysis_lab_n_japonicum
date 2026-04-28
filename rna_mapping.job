@@ -1,0 +1,11 @@
+#!/bin/bash
+#SBATCH -A uppmax2026-1-61
+#SBATCH -J rna_mapping
+#SBATCH -t 1:00:00
+#SBATCH -c 4
+
+RNA_DIR="/proj/uppmax2026-1-61/nobackup/work/fynn/trimmed_rna"
+
+module load HISAT2/2.2.1-gompi-2024a
+
+hisat2

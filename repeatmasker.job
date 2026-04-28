@@ -6,4 +6,4 @@
 
 module load RepeatMasker/4.2.1-foss-2024a
 
-RepeatMasker -libdir /proj/uppmax2026-1-61/nobackup/work/fynn/Libraries -species "bryophyta" /home/fynn/genome_project/data/genome_assembly/pilon/pilon.fasta
+RepeatMasker -libdir /proj/uppmax2026-1-61/nobackup/work/fynn/Libraries -species "bryophyta" /home/fynn/genome_project/data/genome_assembly/pilon/pilon.fasta -xsmall
