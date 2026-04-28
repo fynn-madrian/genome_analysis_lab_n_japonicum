@@ -1,29 +1,20 @@
 #!/bin/bash
 #SBATCH -A uppmax2026-1-61
 #SBATCH -J rna_assembly
-#SBATCH -t 10:00:00
+#SBATCH -t 12:00:00
 #SBATCH -c 4
 #SBATCH --mem=100G
 
 module load Trinity/2.15.2-foss-2024a-Java-17
 
 RNA_DIR="/proj/uppmax2026-1-61/nobackup/work/fynn/trimmed_rna"
-FINAL_DIR="/proj/uppmax2026-1-61/nobackup/work/fynn/trinity_out_dir"
-
-# Run Trinity in node-local scratch for I/O performance
-WORK_DIR="$SNIC_TMP/trinity_work"
-mkdir -p "$WORK_DIR"
-
-# Copy input reads to local scratch
-echo "Copying reads to local scratch..."
-cp "$RNA_DIR"/*_paired.fastq.gz "$WORK_DIR"/
-cd "$WORK_DIR"
+OUT_DIR="/proj/uppmax2026-1-61/nobackup/work/fynn/trinity_out_dir"
 
 # Collect all paired forward reads, build comma-separated left/right lists
 LEFT=""
 RIGHT=""
 
-for f1 in *_f1_paired.fastq.gz; do
+for f1 in "$RNA_DIR"/*_f1_paired.fastq.gz; do
     # Derive the matching r2 file from the f1 filename
     r2="${f1/_f1_paired/_r2_paired}"
 
@@ -41,18 +32,10 @@ done
 echo "LEFT:  $LEFT"
 echo "RIGHT: $RIGHT"
 
-# Run Trinity in local scratch
+# Run Trinity
 Trinity --seqType fq \
-        --max_memory 90G \
+        --max_memory 100G \
         --CPU 4 \
         --left "$LEFT" \
         --right "$RIGHT" \
-        --output "$WORK_DIR/trinity_out_dir"
-
-# Copy only the final outputs back to project storage
-echo "Copying results back to project storage..."
-mkdir -p "$FINAL_DIR"
-cp "$WORK_DIR/trinity_out_dir/Trinity.fasta" "$FINAL_DIR/"
-cp "$WORK_DIR/trinity_out_dir/Trinity.fasta.gene_trans_map" "$FINAL_DIR/"
-
-echo "Done. Final assembly is in $FINAL_DIR"
+        --output "$OUT_DIR"
