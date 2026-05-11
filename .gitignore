@@ -1,1 +1,6 @@
 *.out
+braker/*
+ncbi_dataset/*
+pilon/*
+raw_qc/*
+*.DS_Store
