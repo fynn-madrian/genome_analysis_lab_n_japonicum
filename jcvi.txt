@@ -1,0 +1,28 @@
+Note: this file contains all commands run to create the synteny plots
+
+python -m jcvi.formats.gff bed \
+    --type=mRNA --key=ID \
+    n_japonicum.gff3 -o n_japonicum.bed
+
+python -m jcvi.formats.gff bed \
+    --type=mRNA --key=ID \
+    c_purpureos.gff3 -o c_purpureos.bed
+
+python -m jcvi.formats.gff load \
+    n_japonicum.gff3 n_japonicum.fna -o n_japonicum.cds
+
+python -m jcvi.formats.gff load \
+    c_purpureos.gff3 c_purpureos.fna -o c_purpureos.cds
+
+python -m jcvi.compara.catalog ortholog \
+    n_japonicum c_purpureos --no_strip_names
+
+python -m jcvi.compara.synteny screen \
+    --minspan=30 --simple \
+    n_japonicum.c_purpureos.anchors \
+    n_japonicum.c_purpureos.anchors.new
+
+cut -f1 n_japonicum.bed | sort -u | paste -sd, - > seqids
+cut -f1 c_purpureos.bed | sort -u | paste -sd, - >> seqids
+
+python -m jcvi.graphics.karyotype seqids layout

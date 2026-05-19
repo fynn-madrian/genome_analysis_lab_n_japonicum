@@ -1,0 +1,5 @@
+# y, xstart, xend, rotation, color, label, va, bed
+ .6,     .1,    .8,       0,      , N. japonicum chr3, top, n_japonicum.bed
+ .4,     .1,    .8,       0,      , C. purpureus, bottom, c_purpureos.bed
+# edges
+e, 0, 1, n_japonicum.c_purpureos.anchors.simple
