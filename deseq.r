@@ -58,3 +58,37 @@ EnhancedVolcano(
     pointSize = 2,
     labSize = 3
 )
+vsd <- vst(dds, blind = TRUE)
+plotPCA(vsd, intgroup = "condition")
+res_df <- as.data.frame(res)
+res_df$gene <- rownames(res_df)
+
+# Manually label only the HSPs
+res_df$label <- ""
+res_df$label[res_df$gene == "g348"] <- "HSP70"
+res_df$label[res_df$gene == "g2025"] <- "HSP60"
+
+rownames(res_df) <- res_df$gene
+
+library(EnhancedVolcano)
+EnhancedVolcano(
+    res_df,
+    lab = res_df$label,
+    selectLab = c("HSP70", "HSP60"),
+    x = "log2FoldChange",
+    y = "padj",
+    pCutoff = 0.05,
+    FCcutoff = 1,
+    title = "Heat vs Control",
+    subtitle = NULL,
+    caption = NULL,
+    pointSize = 1.8,
+    labSize = 4.5,
+    drawConnectors = TRUE,
+    widthConnectors = 0.5,
+    boxedLabels = TRUE,
+    colAlpha = 0.6,
+    legendPosition = "top",
+    legendLabSize = 11,
+    axisLabSize = 12
+)
