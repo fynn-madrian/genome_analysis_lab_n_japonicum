@@ -25,4 +25,6 @@ python -m jcvi.compara.synteny screen \
 cut -f1 n_japonicum.bed | sort -u | paste -sd, - > seqids
 cut -f1 c_purpureos.bed | sort -u | paste -sd, - >> seqids
 
-python -m jcvi.graphics.karyotype seqids layout
+python -m jcvi.graphics.karyotype seqids layout \                                                       
+    --figsize=14x8 --format=png --dpi=300 \                    
+    --nocircles   
